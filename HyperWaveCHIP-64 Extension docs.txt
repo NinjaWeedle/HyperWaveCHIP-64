@@ -10,4 +10,4 @@ NEW OPS:
 
 8XYC: Set VX to VX * VY. If result is over 256, Set VF to Floor of (result / 256), and set VX to (VX modulo 256). If not, set VF to 0.
 
-8XYD: Set VX to VX / VY. If result is over 256, Set VF to Floor of (result / 256), and set VX to (VX modulo 256). If not, set VF to 0.
+8XYD: Set VX to VX / VY. If result is over 256, Set VF to VX mod VY. If VY = 0 at the start of the opcode, set BOTH VX and VF to 0. Prevents division by zero.
