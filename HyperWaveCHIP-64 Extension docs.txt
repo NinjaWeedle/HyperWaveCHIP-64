@@ -1,0 +1,13 @@
+HyperWaveCHIP-64 specification
+
+By oxiti8
+
+THis extension builds off of HYPERCHIP-64, which builds off of XO-CHIP 1.1.
+
+NEW OPS:
+
+5XY1: Skip if VX > VY. Will also skip over the F000 instruction (long i). Inherited from CHIP8E.
+
+8XYC: Set VX to VX * VY. If result is over 256, Set VF to Floor of (result / 256), and set VX to (VX modulo 256). If not, set VF to 0.
+
+8XYD: Set VX to VX / VY. If result is over 256, Set VF to Floor of (result / 256), and set VX to (VX modulo 256). If not, set VF to 0.
