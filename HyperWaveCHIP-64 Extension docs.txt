@@ -11,3 +11,5 @@ NEW OPS:
 8XYC: Set VX to VX * VY. If result is over 256, Set VF to Floor of (result / 256), and set VX to (VX modulo 256). If not, set VF to 0.
 
 8XYD: Set VX to VX / VY. If result is over 256, Set VF to VX mod VY. If VY = 0 at the start of the opcode, set BOTH VX and VF to 0. Prevents division by zero.
+
+FN03: Change color of plane n to Join [I], [I+1], [I+2]  Set RGB color for plane # N to join [I](R) [I+1],(G) [I+2](B)
