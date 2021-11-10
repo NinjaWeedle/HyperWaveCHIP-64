@@ -12,4 +12,11 @@ NEW OPS:
 
 8XYD: Set VX to VX / VY. If result is over 256, Set VF to VX mod VY. If VY = 0 at the start of the opcode, set BOTH VX and VF to 0. Prevents division by zero.
 
-FN03: Change color of plane n to Join [I], [I+1], [I+2]  Set RGB color for plane # N to join [I](R) [I+1],(G) [I+2](B)
+FN03: Change color of palette n to Join [I], [I+1], [I+2]  Set RGB color for plane # N to join [I](R) [I+1],(G) [I+2](B)
+
+For FN03, the value of N (Ranging from 0-15) represents which palette is being modified. Here's a guide:
+N = 0: The palette used for the Background color (Background in Octo)
+N = 1: The palette for Plane 1 only (Foreground 1 in Octo)
+N = 2: The palette for Plane 2 only (Foreground 2 in Octo)
+N = 3: The palette for Plane 3 (Blended in Octo)
+This can and most likely will be extended for 4 bitplanes later. The structure of the opcode allows for 4 bitplanes and 16 colors maximum.
