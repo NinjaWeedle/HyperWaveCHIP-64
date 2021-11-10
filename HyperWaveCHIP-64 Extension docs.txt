@@ -2,7 +2,7 @@ HyperWaveCHIP-64 specification
 
 By oxiti8
 
-THis extension builds off of HYPERCHIP-64, which builds off of XO-CHIP 1.1.
+This extension builds off of HYPERCHIP-64, which builds off of XO-CHIP 1.1.
 
 NEW OPS:
 
