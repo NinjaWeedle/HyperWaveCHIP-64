@@ -1,0 +1,8 @@
+# This should make the color used for when no pixels are drawn (the Background) bright green. (0x00FF00)
+
+: main
+i := green # i points to the location of the color data in memory.
+0xF0 0x03 # FN03. N is 0, so the background palette is selected to be modified, and the palette for the background is set to the RRGGBB value stored at i in memory (In this case, 0x00 0xFF 0x00, the color green. The palette used for the background is changed to #00FF00.)
+
+: green
+0x00 0xFF 0x00 # RRGGBB format color data.
