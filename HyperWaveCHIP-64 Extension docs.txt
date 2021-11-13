@@ -8,6 +8,10 @@ At minimum, an XO-CHIP 1.0 implementation is required to implement HyperWaveCHIP
 
 NEW OPS:
 
+00F0: Enable XOR mode drawing.
+
+00F1: Enable OR mode drawing.
+
 5XY1: Skip if VX > VY. Will also skip over the F000 instruction (long i). Inherited from CHIP8E.
 
 8XYC: Set VX to VX * VY. If result is over 256, Set VF to higher 8 bits of the product, and set VX to (VX modulo 256). If not, set VF to 0.
