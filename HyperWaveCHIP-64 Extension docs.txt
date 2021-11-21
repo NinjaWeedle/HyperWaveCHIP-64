@@ -12,7 +12,7 @@ NEW OPS:
 
 00F1: Enable OR mode drawing. (Pixels are not erased during DXYN if collision. VF is still set)
 
-00F2: Enable AND mode drawing. (Only erases pixels during DXYN if collision. VF is still set)
+00F2: Enable NIMPLY mode drawing. (Only erases pixels during DXYN if collision. VF is still set)
 
 00F3: Enable XOR mode drawing. (Default)
 
