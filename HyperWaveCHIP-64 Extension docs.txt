@@ -10,11 +10,11 @@ NEW OPS:
 
 00F0: NOT the contents of the the currently selected bit plane.
 
-00F1: Enable OR mode drawing.
+00F1: Enable OR mode drawing. (Pixels are not erased during DXYN if collision. VF is still set)
 
-00F2: Enable AND mode drawing
+00F2: Enable AND mode drawing. (Only erases pixels during DXYN if collision. VF is still set)
 
-00F3: Enable XOR mode drawing.
+00F3: Enable XOR mode drawing. (Default)
 
 5XY1: Skip if VX > VY. Will also skip over the F000 instruction (long i). Inherited from CHIP8E.
 
