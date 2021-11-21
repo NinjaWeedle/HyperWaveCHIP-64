@@ -12,15 +12,26 @@ NEW OPS:
 
 00F1: Enable OR mode drawing.
 
+00F2: Enable AND mode drawing
+
 00F3: Enable XOR mode drawing.
 
 5XY1: Skip if VX > VY. Will also skip over the F000 instruction (long i). Inherited from CHIP8E.
 
-8XYC: Set VX to VX * VY. If result is over 256, Set VF to higher 8 bits of the product, and set VX to (VX modulo 256). If not, set VF to 0.
+8XYC: Set VX to VX * VY. Set VF to higher 8 bits of the product, and set VX to (VX modulo 256). If not, set VF to 0.
 
-8XYD: Set VX to VX / VY. If result is over 256, Set VF to (VX modulo VY). If VY = 0 at the start of the opcode, set BOTH VX and VF to 0. Prevents division by zero.
+8XYD: VX = VX // VY. VF = VX % VY. If VY = 0 at the start of the opcode, set BOTH VX and VF to 0. Prevents division by zero.
+
+8xyF: VX = vY // vX. VF = vY % vX. If VX = 0 at the start of the opcode, set BOTH VX and VF to 0. Prevents division by zero.
 
 FN03: Change color of palette n to Join([I], [I+1], [I+2]).  Set RGB color for plane # N to join [I](R) [I+1],(G) [I+2](B)
+
+F100 nnnn: long jump. Set PC to NNNN
+
+F200 nnnn: long subroutine. Store PC in stack, then set PC to NNNN
+
+F300 nnnn: long jump0. Set PC to NNNN + V0
+
 
 For FN03, the value of N (Ranging from 0-15) represents which palette is being modified. Here's a guide:
 N = 0: The palette used for the Background color (Background in Octo)
