@@ -4,33 +4,44 @@ By oxiti8
 
 This extension builds off of HYPERCHIP-64, which builds off of XO-CHIP 1.1.
 
-At minimum, an XO-CHIP 1.0 implementation is required to implement HyperWaveCHIP-64.
+At minimum, an XO-CHIP 1.1 implementation is required to implement HyperWaveCHIP-64.
 
 NEW OPS:
 
-00F0: NOT the contents of the the currently selected bit plane.
+00Fn RANGE:
 
-00F1: Enable OR mode drawing. (Pixels are not erased during DXYN if collision. VF is still set)
+	00F0: INVERT - NOT the contents of the the currently selected bit plane.
 
-00F2: Enable NIMPLY mode drawing. (Only erases pixels during DXYN if collision. VF is still set)
+	00F1: OR - Enable OR mode drawing. (Pixels are not erased during DXYN if collision. VF is still set to 1 if collision and 0 otherwise)
 
-00F3: Enable XOR mode drawing. (Default)
+	00F2: NIMPLY - Enable NIMPLY mode drawing. (Only erases pixels during DXYN if collision. VF is still set to 1 if collision and 0 otherwise)
 
-5XY1: Skip if VX > VY. Will also skip over the F000 instruction (long i). Inherited from CHIP8E.
+	00F3: XOR - Enable XOR mode drawing. (XOR is the default drawing mode)
 
-8XYC: Set VX to VX * VY. Set VF to higher 8 bits of the product, and set VX to (VX modulo 256). If not, set VF to 0.
+5XYn RANGE:
 
-8XYD: VX = VX // VY. VF = VX % VY. If VY = 0 at the start of the opcode, set BOTH VX and VF to 0. Prevents division by zero.
+	5XY1: SKP VX > VY - Skip if VX > VY. Will also skip over the F000 instruction (long i). Inherited from CHIP8E.
 
-8xyF: VX = vY // vX. VF = vY % vX. If VX = 0 at the start of the opcode, set BOTH VX and VF to 0. Prevents division by zero.
+8XYn RANGE:
 
-FN03: Change color of palette n to Join([I], [I+1], [I+2]).  Set RGB color for plane # N to join [I](R) [I+1],(G) [I+2](B)
+	8XYC: MULT VX, VY - Set VX to VX * VY. Set VF to higher 8 bits of the product, and set VX to (VX modulo 256). If not, set VF to 0.
 
-F100 nnnn: long jump. Set PC to NNNN
+	8XYD: DIV VX, VY - VX = VX // VY. VF = VX % VY. If VY = 0 at the start of the opcode, set BOTH VX and VF to 0. Prevents division by zero.
 
-F200 nnnn: long subroutine. Store PC in stack, then set PC to NNNN
+	8xyF: DIV VX, VY - VX = vY // vX. VF = vY % vX. If VX = 0 at the start of the opcode, set BOTH VX and VF to 0. Prevents division by zero.
 
-F300 nnnn: long jump0. Set PC to NNNN + V0
+Fnnn RANGE:
+
+
+FN03: PALETTE N - Set color of palette n to 3-byte RRGGBB value starting at i. Set RGB color for plane # N to join [I](R) [I+1],(G) [I+2](B).
+
+Fn00 RANGE:
+
+	F100 nnnn: long jump. Set PC to NNNN
+
+	F200 nnnn: long subroutine. Store PC in stack, then set PC to NNNN
+
+	F300 nnnn: long jump0. Set PC to NNNN + V0
 
 
 For FN03, the value of N (Ranging from 0-15) represents which palette is being modified. Here's a guide:
@@ -40,7 +51,7 @@ N = 2: The palette for Plane 2 only (Foreground 2 in Octo)
 N = 3: The palette for Plane 3 (Blended in Octo)
 The structure of the opcode allows for 4 bitplanes and 16 colors maximum.
 
-The actual color palette data itself is stored as 3 bytes in RRGGBB format.
+The actual color palette data itself is stored as 3 bytes in RRGGBB format, allowing for 8-bit color depth.
 
 Accessing the bytes in memory that contain the color data is handled much like how you would handle accessing sprite or audio sample data- Here is an example in Octo:
 
