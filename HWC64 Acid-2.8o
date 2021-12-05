@@ -1,3 +1,6 @@
+# HWC Acid-2 Beta 2
+# Created by Oxiti8
+
 : main
 i := white
 0xF0 0x03 # Set background color to white
@@ -38,11 +41,11 @@ sprite v2 v3 0 # draw face outline
  sprite v2 v3 8 # draw eyes
 plane 3
 # 00Fn tests
-0x00 0xF0 # Invert screen
+0x00 0xE1 # Invert screen
 0x00 0xF1 # Enable OR mode
 i := amogus
 sprite v0 v1 5 # sus
-0x00 0xF0 # revert screen
+0x00 0xE1 # revert screen
 # 5XY1 test
 	0x55 0x11 # 5XY1 test skips- compare v5 and v1. v5 > v1, so it should skip the third eye being drawn
 		sprite v2 v3 5 
