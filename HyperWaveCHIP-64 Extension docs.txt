@@ -8,15 +8,17 @@ At minimum, an XO-CHIP 1.1 implementation is required to implement HyperWaveCHIP
 
 NEW OPS:
 
+00En RANGE:
+
+	00E1: INVERT - NOT the contents of the the currently selected bit plane.
+
 00Fn RANGE:
 
-	00F0: INVERT - NOT the contents of the the currently selected bit plane.
+	00F1: OR MODE - Enable OR mode drawing. (Pixels are not erased during DXYN if collision. VF is still set to 1 if collision and 0 otherwise)
 
-	00F1: OR - Enable OR mode drawing. (Pixels are not erased during DXYN if collision. VF is still set to 1 if collision and 0 otherwise)
+	00F2: ERASE MODE - Enable ERASE mode drawing. (Only erases pixels during DXYN if collision. VF is still set to 1 if collision and 0 otherwise)
 
-	00F2: NIMPLY - Enable NIMPLY mode drawing. (Only erases pixels during DXYN if collision. VF is still set to 1 if collision and 0 otherwise)
-
-	00F3: XOR - Enable XOR mode drawing. (XOR is the default drawing mode)
+	00F3: XOR MODE - Enable XOR mode drawing. (XOR is the default drawing mode. )
 
 5XYn RANGE:
 
@@ -32,16 +34,15 @@ NEW OPS:
 
 Fnnn RANGE:
 
-
-FN03: PALETTE N - Set color of palette n to 3-byte RRGGBB value starting at i. Set RGB color for plane # N to join [I](R) [I+1],(G) [I+2](B).
+	FN03: PALETTE N - Set color of palette n to 3-byte RRGGBB value starting at i. Set RGB color for plane # N to join [I](R) [I+1],(G) [I+2](B).
 
 Fn00 RANGE:
 
-	F100 nnnn: long jump. Set PC to NNNN
+	F100 NNNN: LONG JUMP -  Set PC to NNNN.
 
-	F200 nnnn: long subroutine. Store PC in stack, then set PC to NNNN
+	F200 NNNN: LONG CALL SUBROUTINE. Store PC in stack, then set PC to NNNN.
 
-	F300 nnnn: long jump0. Set PC to NNNN + V0
+	F300 NNNN: LONG JUMP0. Set PC to NNNN + V0.
 
 
 For FN03, the value of N (Ranging from 0-15) represents which palette is being modified. Here's a guide:
