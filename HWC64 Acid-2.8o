@@ -1,4 +1,4 @@
-# HWC Acid-2 Beta 2
+# HWC Acid-2 Beta 3
 # Created by Oxiti8
 
 : main
@@ -58,15 +58,18 @@ v1 := 15
 v8 := 1
 i := hel
 sprite v1 v0 8 
-v1 += 8
+v1 += 12
 i := lo
+scroll-right # Make sure half-pixel scrolling is disabled
 sprite v1 v0 8
+v1 -= 4
 v1 /= v7 
 v1 += 30
 i := wo
+scroll-left
 sprite v1 v0 8 
 v1 += 8
-v8 =/ v1 # 8XF1 v1/1 := v8
+v8 =/ v1 # 8XYF v1/1 := v8
 i := orl
 sprite v8 v0 8 
 v8 += 8
