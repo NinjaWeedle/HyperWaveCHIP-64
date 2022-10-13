@@ -34,7 +34,7 @@ NEW OPS:
 
 Fnnn RANGE:
 
-	FN03: PALETTE N - Set color of palette n to 3-byte RRGGBB value starting at i. Set RGB color for plane # N to join [I](R) [I+1],(G) [I+2](B).
+	FN03: PALETTE N - Set color of palette n to 3-byte (24-bit) RRGGBB value located at I in memory. Set RGB8 color for plane # N to palette located at I
 
 Fn00 RANGE:
 
@@ -42,8 +42,9 @@ Fn00 RANGE:
 
 	F200 NNNN: LONG CALL SUBROUTINE. Store PC in stack, then set PC to NNNN.
 
-	F300 NNNN: LONG JUMP0. Set PC to NNNN + V0.
+	F300 NNNN: LONG JUMP0. Set PC to NNNN + V0. 
 
+IMPORTANT: Skip instructions should double skip over F100, F200, and F300 in the same way as they double skip over F000 in XO-CHOP
 
 For FN03, the value of N (Ranging from 0-15) represents which palette is being modified. Here's a guide:
 N = 0: The palette used for the Background color (Background in Octo)
