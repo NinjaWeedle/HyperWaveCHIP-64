@@ -14,9 +14,9 @@ NEW OPS:
 
 00Fn RANGE:
 
-	00F1: OR MODE - Enable OR mode drawing. (Pixels are not erased during DXYN if collision. VF is still set to 1 if collision and 0 otherwise)
+	00F1: OR MODE - Enable OR mode drawing. (Pixels are not erased during DXYN, even if a collision occurs. VF is still set to 1 if collision and 0 otherwise)
 
-	00F2: ERASE MODE - Enable ERASE mode drawing. (Only erases pixels during DXYN if collision. VF is still set to 1 if collision and 0 otherwise)
+	00F2: ERASE MODE - Enable ERASE mode drawing. (Only erases pixels during DXYN if a collision occurs, and does not turn any pixels on. VF is still set to 1 if collision and 0 otherwise)
 
 	00F3: XOR MODE - Enable XOR mode drawing. (XOR is the default drawing mode. )
 
@@ -30,7 +30,7 @@ NEW OPS:
 
 	8XYD: DIV VX, VY - VX = VX // VY. VF = VX % VY. If VY = 0 at the start of the opcode, set BOTH VX and VF to 0. Prevents division by zero.
 
-	8xyF: DIV VX, VY - VX = vY // vX. VF = vY % vX. If VX = 0 at the start of the opcode, set BOTH VX and VF to 0. Prevents division by zero.
+	8xyF: DIV VY, VX - VX = VY // VX. VF = VY % VX. If VX = 0 at the start of the opcode, set BOTH VX and VF to 0. Prevents division by zero.
 
 Fnnn RANGE:
 
