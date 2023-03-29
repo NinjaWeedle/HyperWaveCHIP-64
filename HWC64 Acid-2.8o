@@ -1,4 +1,4 @@
-# HWC Acid-2 Beta 3
+# HWC Acid-2 Beta 4
 # Created by Oxiti8
 
 : main
@@ -39,6 +39,15 @@ sprite v2 v3 0 # draw face outline
 	v3 += v4
  i := eyes
  sprite v2 v3 8 # draw eyes
+plane 2
+i := amogus
+v2 += 18
+sprite v2 v3 5  # draw dark face
+0x00 0xF2 # Enable ERASE mode
+i := notface
+v2 -= 5
+sprite v2 v3 0  # erase dark face
+
 plane 3
 # 00Fn tests
 0x00 0xE1 # Invert screen
