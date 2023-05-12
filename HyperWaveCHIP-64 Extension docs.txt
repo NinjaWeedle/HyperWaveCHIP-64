@@ -1,10 +1,12 @@
-HyperWaveCHIP-64 specification
+HyperWaveCHIP-64 specification Version 1.1
 
 By oxiti8
 
 This extension builds off of HYPERCHIP-64, which builds off of XO-CHIP 1.1.
 
 At minimum, an XO-CHIP 1.1 implementation is required to implement HyperWaveCHIP-64.
+
+In HyperWaveCHIP-64 1.1, 4 draw planes can be used for a total of 16 colors on screen at once. This is inherited from HYPERCHIP-64.
 
 NEW OPS:
 
@@ -14,11 +16,11 @@ NEW OPS:
 
 00Fn RANGE:
 
-	00F1: OR MODE - Enable OR mode drawing. (Pixels are not erased during DXYN, even if a collision occurs. VF is still set to 1 if collision and 0 otherwise)
+	00F1: OR MODE - Enable OR mode drawing. (Pixels are not erased during DXYN, even if a collision occurs. VF is still set to 1 if a collision occurs and 0 otherwise)
 
-	00F2: ERASE MODE - Enable ERASE mode drawing. (Only erases pixels during DXYN if a collision occurs, and does not turn any pixels on. VF is still set to 1 if collision and 0 otherwise)
+	00F2: ERASE MODE - Enable ERASE mode drawing. (Only erases pixels during DXYN if a collision occurs, and does not turn pixels on in any scenario. VF is still set to 1 if a collision occurs and 0 otherwise.)
 
-	00F3: XOR MODE - Enable XOR mode drawing. (XOR is the default drawing mode. )
+	00F3: XOR MODE - Enable XOR mode drawing. (XOR is the default drawing mode.)
 
 5XYn RANGE:
 
@@ -30,11 +32,14 @@ NEW OPS:
 
 	8XYD: DIV VX, VY - VX = VX // VY. VF = VX % VY. If VY = 0 at the start of the opcode, set BOTH VX and VF to 0. Prevents division by zero.
 
-	8xyF: DIV VY, VX - VX = VY // VX. VF = VY % VX. If VX = 0 at the start of the opcode, set BOTH VX and VF to 0. Prevents division by zero.
+	8XYF: DIV VY, VX - VX = VY // VX. VF = VY % VX. If VX = 0 at the start of the opcode, set BOTH VX and VF to 0. Prevents division by zero.
 
 Fnnn RANGE:
 
+
 	FN03: PALETTE N - Set color of palette n to 3-byte (24-bit) RRGGBB value located at I in memory. Set RGB8 color for plane # N to palette located at I
+	
+	FX1F: SUB I, VX - I = I - VX. Subtracts VX from I. The inverse of FX1E. (HWC-64 1.1)
 
 Fn00 RANGE:
 
@@ -44,13 +49,30 @@ Fn00 RANGE:
 
 	F300 NNNN: LONG JUMP0. Set PC to NNNN + V0. 
 
-IMPORTANT: Skip instructions should double skip over F100, F200, and F300 in the same way as they double skip over F000 in XO-CHOP
+IMPORTANT: 
+- Skip instructions should double skip over F100, F200, and F300 in the same way as they double skip over F000 in XO-CHIP.
+
+- FN01 (plane n) must allow for values of N ranging from 0-15 instead of just 0-3 to allow for 4 planes and 16 colors- a chart showing what colors correspond to what planes is provided below:
+
+                      COLOR
+P  0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F
+L  1. x     x     x     x     x     x     x     x
+A  2.    x  x        x  x        x  x        x  x
+N  3.          x  x  x  x              x  x  x  x
+E  4.                      x  x  x  x  x  x  x  x
 
 For FN03, the value of N (Ranging from 0-15) represents which palette is being modified. Here's a guide:
 N = 0: The palette used for the Background color (Background in Octo)
 N = 1: The palette for Plane 1 only (Foreground 1 in Octo)
 N = 2: The palette for Plane 2 only (Foreground 2 in Octo)
-N = 3: The palette for Plane 3 (Blended in Octo)
+N = 3: The palette for Plane 1 + Plane 2 (Blended in Octo)
+N = 4: The palette for Plane 3 only
+N = 5: The palette for Plane 1 + Plane 3
+...
+N = 15: The palette for Plane 1 + Plane 2 + Plane 3 + Plane 4
+
+(Reference the above color-plane table for more info.)
+
 The structure of the opcode allows for 4 bitplanes and 16 colors maximum.
 
 The actual color palette data itself is stored as 3 bytes in RRGGBB format, allowing for 8-bit color depth.
