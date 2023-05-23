@@ -2,66 +2,73 @@ HyperWaveCHIP-64 specification Version 1.1
 
 By oxiti8
 
-This extension builds off of HYPERCHIP-64, which builds off of XO-CHIP 1.1.
+This extension builds off of HYPERCHIP-64, which builds off of XO-CHIP 1.1. At minimum, an XO-CHIP 1.1 implementation is required to implement HyperWaveCHIP-64.
 
-At minimum, an XO-CHIP 1.1 implementation is required to implement HyperWaveCHIP-64.
+In HyperWaveCHIP-64 1.1, 4 draw planes can be used for a total of 16 colors on screen at once. This is inherited from HYPERCHIP-64. NEW instructions are as follows:
 
-In HyperWaveCHIP-64 1.1, 4 draw planes can be used for a total of 16 colors on screen at once. This is inherited from HYPERCHIP-64.
-
-NEW OPS:
 
 00En RANGE:
 
-	00E1: INVERT - NOT the contents of the the currently selected bit plane.
+	00E1: INVERT :: Flip all pixel bits of the currently selected display plane. Effectively inverts the entire plane(s).
+
 
 00Fn RANGE:
 
-	00F1: OR MODE - Enable OR mode drawing. (Pixels are not erased during DXYN, even if a collision occurs. VF is still set to 1 if a collision occurs and 0 otherwise)
+	00F1: OR MODE :: Change the pixel paint mode to OR. Draws will only result in pixels being turned on, not off. Collision occurs as usual.
 
-	00F2: ERASE MODE - Enable ERASE mode drawing. (Only erases pixels during DXYN if a collision occurs, and does not turn pixels on in any scenario. VF is still set to 1 if a collision occurs and 0 otherwise.)
+	00F2: SUBTRACT MODE :: Change the pixel paint mode to SUBTRACT. Draws will only result in pixels being turned off instead. Collision occurs as usual.
 
-	00F3: XOR MODE - Enable XOR mode drawing. (XOR is the default drawing mode.)
+	00F3: XOR MODE :: Change the pixel paint mode to XOR. Draws will invert on and off pixels accordingly. Collision occurs as usual. This is the default drawing mode.
+
 
 5XYn RANGE:
 
-	5XY1: SKP VX > VY - Skip if VX > VY. Will also skip over the F000 instruction (long i). Inherited from CHIP8E.
+	5XY1: SKP VX > VY :: Skip next instruction if VX > VY. Will also skip over the F000/F100/F200/F300 instructions. Inherited from CHIP-8E.
+
 
 8XYn RANGE:
 
-	8XYC: MULT VX, VY - Set VX to VX * VY. Set VF to higher 8 bits of the product (in other words, VF = (product >> 8)), and set VX to (VX modulo 256). If the product is less than 256, set VF to 0.
+	8XYC: MULT VX, VY :: Set VX = VX * VY, VF = carry. You multiply VX with VY, then set the 8 low bits of the product to VX, and any high bits to VF.
 
-	8XYD: DIV VX, VY - VX = VX // VY. VF = VX % VY. If VY = 0 at the start of the opcode, set BOTH VX and VF to 0. Prevents division by zero.
+	8XYD: DIV VX, VY :: VX = VX / VY. VF = VX % VY. If VY is 0, set both VX and VF to 0. Prevents division by zero.
 
-	8XYF: DIV VY, VX - VX = VY // VX. VF = VY % VX. If VX = 0 at the start of the opcode, set BOTH VX and VF to 0. Prevents division by zero.
-
-Fnnn RANGE:
+	8XYF: DIV VY, VX :: VX = VY / VX. VF = VY % VX. If VY is 0, set both VX and VF to 0. Prevents division by zero.
 
 
-	FN03: PALETTE N - Set color of palette n to 3-byte (24-bit) RRGGBB value located at I in memory. Set RGB8 color for plane # N to palette located at I
+FXnn RANGE:
+
+	FX03: PALETTE X :: Set color of palette X to 3-byte (24-bit) color from memory at I, I+1, I+2.
 	
-	FX1F: SUB I, VX - I = I - VX. Subtracts VX from I. The inverse of FX1E. (HWC-64 1.1)
+	FX1F: SUB I, VX :: I = I - VX. Subtracts VX from I. The inverse of FX1E. (HWC-64 1.1)
+
 
 Fn00 RANGE:
 
-	F100 NNNN: LONG JUMP -  Set PC to NNNN.
+	F100 NNNN: LONG JUMP :: Set PC to NNNN.
 
-	F200 NNNN: LONG CALL SUBROUTINE. Store PC in stack, then set PC to NNNN.
+	F200 NNNN: LONG CALL SUBROUTINE :: Store PC in stack, then set PC to NNNN.
 
-	F300 NNNN: LONG JUMP0. Set PC to NNNN + V0. 
+	F300 NNNN: LONG JUMP0 :: Set PC to NNNN + V0. 
 
-IMPORTANT: 
+
+
+IMPORTANT:
 - Skip instructions should double skip over F100, F200, and F300 in the same way as they double skip over F000 in XO-CHIP.
 
-- FN01 (plane n) must allow for values of N ranging from 0-15 instead of just 0-3 to allow for 4 planes and 16 colors- a chart showing what colors correspond to what planes is provided below:
+- FX01 (plane X) must allow for values of N ranging from 0-15 instead of just 0-3 to allow for 4 planes and 16 colors - a chart showing what colors correspond to what planes is provided below:
 
-                      COLOR
-P  0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F
-L  1. x     x     x     x     x     x     x     x
-A  2.    x  x        x  x        x  x        x  x
-N  3.          x  x  x  x              x  x  x  x
-E  4.                      x  x  x  x  x  x  x  x
+ ╭────────────────────── COLOR ──────────────────────╮
+ │       1  2  3  4  5  6  7  8  9  A  B  C  D  E  F │
+ │ ╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌ │
+ B   1.  o     o     o     o     o     o     o     o │
+ I   2.     o  o        o  o        o  o        o  o │
+ T   3.           o  o  o  o              o  o  o  o │
+ S   4.                       o  o  o  o  o  o  o  o │
+ ╰───────────────────────────────────────────────────╯
 
-For FN03, the value of N (Ranging from 0-15) represents which palette is being modified. Here's a guide:
+
+For FX03, the value of X (0..15) represents which palette is being modified. Here's a guide:
+
 N = 0: The palette used for the Background color (Background in Octo)
 N = 1: The palette for Plane 1 only (Foreground 1 in Octo)
 N = 2: The palette for Plane 2 only (Foreground 2 in Octo)
@@ -71,13 +78,9 @@ N = 5: The palette for Plane 1 + Plane 3
 ...
 N = 15: The palette for Plane 1 + Plane 2 + Plane 3 + Plane 4
 
-(Reference the above color-plane table for more info.)
+The structure of the opcode allows for 4 bitplanes and 16 colors maximum. The actual color data itself is stored sequentially as 3 bytes, one for each color channel, allowing for full 8-bit color depth.
 
-The structure of the opcode allows for 4 bitplanes and 16 colors maximum.
-
-The actual color palette data itself is stored as 3 bytes in RRGGBB format, allowing for 8-bit color depth.
-
-Accessing the bytes in memory that contain the color data is handled much like how you would handle accessing sprite or audio sample data- Here is an example in Octo:
+Accessing the bytes in memory that contain the color data is handled much like how you would handle accessing sprite or audio sample data. Here is an example in Octo:
 
 : main
 i := green # i points to the location of the color data in memory.
@@ -86,11 +89,3 @@ i := green # i points to the location of the color data in memory.
 : green
 0x00 0xFF 0x00 # RRGGBB format color data.
 
-
-
-
-SOME PSEUDOCODE TRANSLATIONS FOR LANGUAGES THAT ARE NOT SCRATCH:
-
-"Vf is set to Floor of (result / 256)" translates to "Vf = (int) (result / 256);" in a language like Java.
-
-"value1 modulo value2" translates to "value1 % value2" in a language like Java. 
