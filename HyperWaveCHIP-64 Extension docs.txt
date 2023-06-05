@@ -37,7 +37,7 @@ In HyperWaveCHIP-64 1.1, 4 draw planes can be used for a total of 16 colors on s
 
 FXnn RANGE:
 
-	FX03: PALETTE X :: Set color of palette X to 3-byte (24-bit) color from memory at I, I+1, I+2.
+	FN03: PALETTE N :: Set color of palette X to 3-byte (24-bit) color from memory at I, I+1, I+2.
 	
 	FX1F: SUB I, VX :: I = I - VX. Subtracts VX from I. The inverse of FX1E. (HWC-64 1.1)
 
@@ -55,7 +55,7 @@ Fn00 RANGE:
 IMPORTANT:
 - Skip instructions should double skip over F100, F200, and F300 in the same way as they double skip over F000 in XO-CHIP.
 
-- FX01 (plane X) must allow for values of N ranging from 0-15 instead of just 0-3 to allow for 4 planes and 16 colors - a chart showing what colors correspond to what planes is provided below:
+- FN01 (plane N) must allow for values of N ranging from 0-15 instead of just 0-3 to allow for 4 planes and 16 colors - a chart showing what colors correspond to what planes is provided below:
 
  ╭────────────────────── COLOR ──────────────────────╮
  │       1  2  3  4  5  6  7  8  9  A  B  C  D  E  F │
@@ -67,7 +67,7 @@ IMPORTANT:
  ╰───────────────────────────────────────────────────╯
 
 
-For FX03, the value of X (0..15) represents which palette is being modified. Here's a guide:
+For FN03, the value of N (0..15) represents which palette is being modified. Here's a guide:
 
 N = 0: The palette used for the Background color (Background in Octo)
 N = 1: The palette for Plane 1 only (Foreground 1 in Octo)
