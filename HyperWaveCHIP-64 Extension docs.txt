@@ -37,7 +37,7 @@ In HyperWaveCHIP-64 1.1, 4 draw planes can be used for a total of 16 colors on s
 
 FXnn RANGE:
 
-	FN03: PALETTE N :: Set color of palette X to 3-byte (24-bit) color from memory at I, I+1, I+2.
+	FN03: PALETTE N :: Set color of palette N to 3-byte (24-bit) color from memory at I, I+1, I+2.
 	
 	FX1F: SUB I, VX :: I = I - VX. Subtracts VX from I. The inverse of FX1E. (HWC-64 1.1)
 
@@ -88,4 +88,5 @@ i := green # i points to the location of the color data in memory.
 
 : green
 0x00 0xFF 0x00 # RRGGBB format color data.
+
 
