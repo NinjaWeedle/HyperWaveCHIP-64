@@ -1,4 +1,4 @@
-HyperWaveCHIP-64 specification Version 1.1
+HyperWaveCHIP-64 specification Version 1.2
 
 By oxiti8
 
@@ -32,7 +32,7 @@ In HyperWaveCHIP-64 1.1, 4 draw planes can be used for a total of 16 colors on s
 
 	8XYD: DIV VX, VY :: VX = VX / VY. VF = VX % VY. If VY is 0, set both VX and VF to 0. Prevents division by zero.
 
-	8XYF: DIV VY, VX :: VX = VY / VX. VF = VY % VX. If VY is 0, set both VX and VF to 0. Prevents division by zero.
+	8XYF: DIV VY, VX :: VX = VY / VX. VF = VY % VX. If VY is 0, set both VY and VF to 0. Prevents division by zero.
 
 
 FXnn RANGE:
@@ -88,5 +88,6 @@ i := green # i points to the location of the color data in memory.
 
 : green
 0x00 0xFF 0x00 # RRGGBB format color data.
+
 
 
